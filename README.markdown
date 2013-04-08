@@ -72,7 +72,7 @@ To achieve git-hubflow completion nirvana:
 
 The Fine Print
 --------------
-Modified by [Gemma Hentsch](https://github.com/ladyrassilon)
+Forked by [Gemma Hentsch](https://github.com/ladyrassilon)
 
 Copyright (c) 2011 [Justin Hileman](http://justinhileman.com)
 
