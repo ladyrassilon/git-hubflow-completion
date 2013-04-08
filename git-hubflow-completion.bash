@@ -1,13 +1,13 @@
 #!bash
 #
-# git-flow-completion
+# git-hubflow-completion
 # ===================
 # 
-# Bash completion support for [git-flow](http://github.com/nvie/gitflow)
+# Bash completion support for [git-hubflow](http://datasift.github.io/gitflow/)
 # 
 # The contained completion routines provide support for completing:
 # 
-#  * git-flow init and version
+#  * git hf init and version
 #  * feature, hotfix and release branches
 #  * remote feature, hotfix and release branch names
 # 
@@ -15,7 +15,7 @@
 # Installation
 # ------------
 # 
-# To achieve git-flow completion nirvana:
+# To achieve git-hubflow completion nirvana:
 # 
 #  0. Install git-completion.
 # 
@@ -27,25 +27,27 @@
 #        * /usr/local/etc/bash-completion.d
 #        * ~/bash-completion.d
 # 
-#     b. Or, copy it somewhere (e.g. ~/.git-flow-completion.sh) and put the following line in
+#     b. Or, copy it somewhere (e.g. ~/.git-hubflow-completion.sh) and put the following line in
 #        your .bashrc:
 # 
-#            source ~/.git-flow-completion.sh
+#            source ~/.git-hubflow-completion.sh
 # 
 #  2. If you are using Git < 1.7.1: Edit git-completion.sh and add the following line to the giant
 #     $command case in _git:
 # 
-#         flow)        _git_flow ;;
+#         flow)        _git_hf ;;
 # 
 # 
 # The Fine Print
 # --------------
 # 
+# Forked by [Gemma Hentsch](https://github.com/ladyrassilon)
+#
 # Copyright (c) 2011 [Justin Hileman](http://justinhileman.com)
 # 
 # Distributed under the [MIT License](http://creativecommons.org/licenses/MIT/)
 
-_git_flow ()
+_git_hf ()
 {
 	local subcommands="init feature release hotfix support help version"
 	local subcommand="$(__git_find_on_cmdline "$subcommands")"
@@ -56,23 +58,23 @@ _git_flow ()
 
 	case "$subcommand" in
 	init)
-		__git_flow_init
+		__git_hf_init
 		return
 		;;
 	feature)
-		__git_flow_feature
+		__git_hf_feature
 		return
 		;;
 	release)
-		__git_flow_release
+		__git_hf_release
 		return
 		;;
 	hotfix)
-		__git_flow_hotfix
+		__git_hf_hotfix
 		return
 		;;
 	support)
-		__git_flow_support
+		__git_hf_support
 		return
 		;;
 	*)
@@ -81,7 +83,7 @@ _git_flow ()
 	esac
 }
 
-__git_flow_init ()
+__git_hf_init ()
 {
 	local subcommands="help"
 	local subcommand="$(__git_find_on_cmdline "$subcommands")"
@@ -91,7 +93,7 @@ __git_flow_init ()
 	fi
 }
 
-__git_flow_feature ()
+__git_hf_feature ()
 {
 	local subcommands="list start finish publish track diff rebase checkout pull help"
 	local subcommand="$(__git_find_on_cmdline "$subcommands")"
@@ -106,15 +108,15 @@ __git_flow_feature ()
 		return
 		;;
 	checkout|finish|diff|rebase)
-		__gitcomp "$(__git_flow_list_branches 'feature')"
+		__gitcomp "$(__git_hf_list_branches 'feature')"
 		return
 		;;
 	publish)
-		__gitcomp "$(comm -23 <(__git_flow_list_branches 'feature') <(__git_flow_list_remote_branches 'feature'))"
+		__gitcomp "$(comm -23 <(__git_hf_list_branches 'feature') <(__git_hf_list_remote_branches 'feature'))"
 		return
 		;;
 	track)
-		__gitcomp "$(comm -23 <(__git_flow_list_remote_branches 'feature') <(__git_flow_list_branches 'feature'))"
+		__gitcomp "$(comm -23 <(__git_hf_list_remote_branches 'feature') <(__git_hf_list_branches 'feature'))"
 		return
 		;;
 	*)
@@ -123,7 +125,7 @@ __git_flow_feature ()
 	esac
 }
 
-__git_flow_release ()
+__git_hf_release ()
 {
 	local subcommands="list start finish track publish help"
 	local subcommand="$(__git_find_on_cmdline "$subcommands")"
@@ -134,15 +136,15 @@ __git_flow_release ()
 	
 	case "$subcommand" in
 	finish)
-		__gitcomp "$(__git_flow_list_branches 'release')"
+		__gitcomp "$(__git_hf_list_branches 'release')"
 		return
 		;;
 	publish)
-		__gitcomp "$(comm -23 <(__git_flow_list_branches 'release') <(__git_flow_list_remote_branches 'release'))"
+		__gitcomp "$(comm -23 <(__git_hf_list_branches 'release') <(__git_hf_list_remote_branches 'release'))"
 		return
 		;;
 	track)
-		__gitcomp "$(comm -23 <(__git_flow_list_remote_branches 'release') <(__git_flow_list_branches 'release'))"
+		__gitcomp "$(comm -23 <(__git_hf_list_remote_branches 'release') <(__git_hf_list_branches 'release'))"
 		return
 		;;
 	*)
@@ -152,7 +154,7 @@ __git_flow_release ()
 
 }
 
-__git_flow_hotfix ()
+__git_hf_hotfix ()
 {
 	local subcommands="list start finish help"
 	local subcommand="$(__git_find_on_cmdline "$subcommands")"
@@ -163,7 +165,7 @@ __git_flow_hotfix ()
 
 	case "$subcommand" in
 	finish)
-		__gitcomp "$(__git_flow_list_branches 'hotfix')"
+		__gitcomp "$(__git_hf_list_branches 'hotfix')"
 		return
 		;;
 	*)
@@ -172,7 +174,7 @@ __git_flow_hotfix ()
 	esac
 }
 
-__git_flow_support ()
+__git_hf_support ()
 {
 	local subcommands="list start help"
 	local subcommand="$(__git_find_on_cmdline "$subcommands")"
@@ -188,7 +190,7 @@ __git_flow_support ()
 	esac
 }
 
-__git_flow_prefix ()
+__git_hf_prefix ()
 {
 	case "$1" in
 	feature|release|hotfix)
@@ -198,15 +200,15 @@ __git_flow_prefix ()
 	esac
 }
 
-__git_flow_list_branches ()
+__git_hf_list_branches ()
 {
-	local prefix="$(__git_flow_prefix $1)"
+	local prefix="$(__git_hf_prefix $1)"
 	git branch 2> /dev/null | tr -d ' |*' | grep "^$prefix" | sed s,^$prefix,, | sort
 }
 
-__git_flow_list_remote_branches ()
+__git_hf_list_remote_branches ()
 {
-	local prefix="$(__git_flow_prefix $1)"
+	local prefix="$(__git_hf_prefix $1)"
 	local origin="$(git config gitflow.origin 2> /dev/null || echo "origin")"
 	git branch -r 2> /dev/null | sed "s/^ *//g" | grep "^$origin/$prefix" | sed s,^$origin/$prefix,, | sort
 }
