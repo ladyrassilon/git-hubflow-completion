@@ -44,6 +44,7 @@ To achieve git-hubflow completion nirvana:
 
 Installation for Zsh
 --------------------
+This has not been as thoroughly tested as bash, please raise any issues you find on github, or fix and submit a pull request.
 
 To achieve git-hubflow completion nirvana:
 

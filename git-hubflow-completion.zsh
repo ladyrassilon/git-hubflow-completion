@@ -3,7 +3,7 @@
 # Installation
 # ------------
 #
-# To achieve git-flow completion nirvana:
+# To achieve git-hubflow completion nirvana:
 #
 #  0. Update your zsh's git-completion module to the newest verion.
 #     From here. http://zsh.git.sourceforge.net/git/gitweb.cgi?p=zsh/zsh;a=blob_plain;f=Completion/Unix/Command/_git;hb=HEAD
@@ -12,15 +12,15 @@
 #
 #     a. Place it in your .zshrc:
 #
-#     b. Or, copy it somewhere (e.g. ~/.git-flow-completion.zsh) and put the following line in
+#     b. Or, copy it somewhere (e.g. ~/.git-hubflow-completion.zsh) and put the following line in
 #        your .zshrc:
 #
-#            source ~/.git-flow-completion.zsh
+#            source ~/.git-hubflow-completion.zsh
 #
 #     c. Or, use this file as a oh-my-zsh plugin.
-#
+# This has not been as thoroughly tested as bash, please raise any issues you find on github, or fix and submit a pull request.
 
-_git-flow ()
+_git-hf ()
 {
 	local curcontext="$curcontext" state line
 	typeset -A opt_args
@@ -41,7 +41,7 @@ _git-flow ()
 				'support:Manage your support branches.'
 				'version:Shows version information.'
 			)
-			_describe -t commands 'git flow' subcommands
+			_describe -t commands 'git hf' subcommands
 		;;
 
 		(options)
@@ -49,29 +49,29 @@ _git-flow ()
 
 				(init)
 					_arguments \
-						-f'[Force setting of gitflow branches, even if already configured]'
+						-f'[Force setting of githubflow branches, even if already configured]'
 					;;
 
 					(version)
 					;;
 
 					(hotfix)
-						__git-flow-hotfix
+						__git-hf-hotfix
 					;;
 
 					(release)
-						__git-flow-release
+						__git-hf-release
 					;;
 
 					(feature)
-						__git-flow-feature
+						__git-hf-feature
 					;;
 			esac
 		;;
 	esac
 }
 
-__git-flow-release ()
+__git-hf-release ()
 {
 	local curcontext="$curcontext" state line
 	typeset -A opt_args
@@ -87,11 +87,11 @@ __git-flow-release ()
 			subcommands=(
 				'start:Start a new release branch.'
 				'finish:Finish a release branch.'
-				'list:List all your release branches. (Alias to `git flow release`)'
+				'list:List all your release branches. (Alias to `git hf release`)'
 				'publish:Publish release branch to remote.'
 				'track:Checkout remote release branch.'
 			)
-			_describe -t commands 'git flow release' subcommands
+			_describe -t commands 'git hf release' subcommands
 			_arguments \
 				-v'[Verbose (more) output]'
 		;;
@@ -102,7 +102,7 @@ __git-flow-release ()
 				(start)
 					_arguments \
 						-F'[Fetch from origin before performing finish]'\
-						':version:__git_flow_version_list'
+						':version:__git_hf_version_list'
 				;;
 
 				(finish)
@@ -112,17 +112,17 @@ __git-flow-release ()
 						-u'[Use the given GPG-key for the digital signature (implies -s)]'\
 						-m'[Use the given tag message]'\
 						-p'[Push to $ORIGIN after performing finish]'\
-						':version:__git_flow_version_list'
+						':version:__git_hf_version_list'
 				;;
 
 				(publish)
 					_arguments \
-						':version:__git_flow_version_list'
+						':version:__git_hf_version_list'
 				;;
 
 				(track)
 					_arguments \
-						':version:__git_flow_version_list'
+						':version:__git_hf_version_list'
 				;;
 
 				*)
@@ -150,9 +150,9 @@ __git-flow-hotfix ()
 			subcommands=(
 				'start:Start a new hotfix branch.'
 				'finish:Finish a hotfix branch.'
-				'list:List all your hotfix branches. (Alias to `git flow hotfix`)'
+				'list:List all your hotfix branches. (Alias to `git hf hotfix`)'
 			)
-			_describe -t commands 'git flow hotfix' subcommands
+			_describe -t commands 'git hf hotfix' subcommands
 			_arguments \
 				-v'[Verbose (more) output]'
 		;;
@@ -163,8 +163,8 @@ __git-flow-hotfix ()
 				(start)
 					_arguments \
 						-F'[Fetch from origin before performing finish]'\
-						':hotfix:__git_flow_version_list'\
-						':branch-name:__git_branch_names'
+						':hotfix:__git_hf_version_list'\
+						':branch-name:__git_hf_names'
 				;;
 
 				(finish)
@@ -174,7 +174,7 @@ __git-flow-hotfix ()
 						-u'[Use the given GPG-key for the digital signature (implies -s)]'\
 						-m'[Use the given tag message]'\
 						-p'[Push to $ORIGIN after performing finish]'\
-						':hotfix:__git_flow_hotfix_list'
+						':hotfix:__git_hf_hotfix_list'
 				;;
 
 				*)
@@ -202,7 +202,7 @@ __git-flow-feature ()
 			subcommands=(
 				'start:Start a new feature branch.'
 				'finish:Finish a feature branch.'
-				'list:List all your feature branches. (Alias to `git flow feature`)'
+				'list:List all your feature branches. (Alias to `git hf feature`)'
 				'publish:Publish feature branch to remote.'
 				'track:Checkout remote feature branch.'
 				'diff:Show all changes.'
@@ -210,7 +210,7 @@ __git-flow-feature ()
 				'checkout:Checkout local feature branch.'
 				'pull:Pull changes from remote.'
 			)
-			_describe -t commands 'git flow feature' subcommands
+			_describe -t commands 'git hf feature' subcommands
 			_arguments \
 				-v'[Verbose (more) output]'
 		;;
@@ -221,7 +221,7 @@ __git-flow-feature ()
 				(start)
 					_arguments \
 						-F'[Fetch from origin before performing finish]'\
-						':feature:__git_flow_feature_list'\
+						':feature:__git_hf_feature_list'\
 						':branch-name:__git_branch_names'
 				;;
 
@@ -229,17 +229,17 @@ __git-flow-feature ()
 					_arguments \
 						-F'[Fetch from origin before performing finish]' \
 						-r'[Rebase instead of merge]'\
-						':feature:__git_flow_feature_list'
+						':feature:__git_hf_feature_list'
 				;;
 
 				(publish)
 					_arguments \
-						':feature:__git_flow_feature_list'\
+						':feature:__git_hf_feature_list'\
 				;;
 
 				(track)
 					_arguments \
-						':feature:__git_flow_feature_list'\
+						':feature:__git_hf_feature_list'\
 				;;
 
 				(diff)
@@ -255,7 +255,7 @@ __git-flow-feature ()
 
 				(checkout)
 					_arguments \
-						':branch:__git_flow_feature_list'\
+						':branch:__git_hf_feature_list'\
 				;;
 
 				(pull)
@@ -273,23 +273,23 @@ __git-flow-feature ()
 	esac
 }
 
-__git_flow_version_list ()
+__git_hf_version_list ()
 {
 	local expl
 	declare -a versions
 
-	versions=(${${(f)"$(_call_program versions git flow release list 2> /dev/null | tr -d ' |*')"}})
+	versions=(${${(f)"$(_call_program versions git hf release list 2> /dev/null | tr -d ' |*')"}})
 	__git_command_successful || return
 
 	_wanted versions expl 'version' compadd $versions
 }
 
-__git_flow_feature_list ()
+__git_hf_feature_list ()
 {
 	local expl
 	declare -a features
 
-	features=(${${(f)"$(_call_program features git flow feature list 2> /dev/null | tr -d ' |*')"}})
+	features=(${${(f)"$(_call_program features git hf feature list 2> /dev/null | tr -d ' |*')"}})
 	__git_command_successful || return
 
 	_wanted features expl 'feature' compadd $features
@@ -312,12 +312,12 @@ __git_remotes () {
 	fi
 }
 
-__git_flow_hotfix_list ()
+__git_hf_hotfix_list ()
 {
 	local expl
 	declare -a hotfixes
 
-	hotfixes=(${${(f)"$(_call_program hotfixes git flow hotfix list 2> /dev/null | tr -d ' |*')"}})
+	hotfixes=(${${(f)"$(_call_program hotfixes git hf hotfix list 2> /dev/null | tr -d ' |*')"}})
 	__git_command_successful || return
 
 	_wanted hotfixes expl 'hotfix' compadd $hotfixes
@@ -341,4 +341,4 @@ __git_command_successful () {
 	return 0
 }
 
-zstyle ':completion:*:*:git:*' user-commands flow:'description for foo'
+zstyle ':completion:*:*:git:*' user-commands hf:'description for foo'
