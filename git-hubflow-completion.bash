@@ -49,7 +49,7 @@
 
 _git_hf ()
 {
-	local subcommands="init feature release hotfix support help version"
+	local subcommands="init feature release hotfix support help version update push"
 	local subcommand="$(__git_find_on_cmdline "$subcommands")"
 	if [ -z "$subcommand" ]; then
 		__gitcomp "$subcommands"
