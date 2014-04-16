@@ -47,6 +47,41 @@
 # 
 # Distributed under the [MIT License](http://creativecommons.org/licenses/MIT/)
 
+__get_config ()
+{
+	local escaped_branch=$(echo $1 | sed -e 's/\./\\./g');
+	git config --get "branch.$escaped_branch.$2" 2>/dev/null
+}
+
+__git_ps1_diff_base ()
+{
+	local b_ref="$(git symbolic-ref HEAD 2>/dev/null)";
+	if [ -n "$b_ref" ]; then
+		local b=${b_ref##refs/heads/};
+		local bb=$(__get_config $b hubflowBase);
+		local base="";
+		local hubflow=$(git config --get hubflow.branch.master 2>/dev/null);
+		if [[ -n "$hubflow" && -n "$bb" ]]; then
+			local ahead_commits=$(git rev-list origin/$bb..$b --count);
+			local behind_commits=$(git rev-list $b..origin/$bb --count);
+			if (( $ahead_commits > 0 )); then
+				base="$base ▴$ahead_commits"
+			fi
+			if (( $behind_commits > 0 )); then
+				base="$base ▾$behind_commits"
+			fi
+		fi
+		base="$(echo "$base" | xargs)";
+		if [ -n "$base" ]; then
+			if [ -n "$1" ]; then
+				printf "$1" "$base";
+			else
+				printf " %s" "$base";
+			fi
+		fi
+	fi
+}
+
 _git_hf ()
 {
 	local subcommands="init feature release hotfix support help version update push"
