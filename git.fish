@@ -3,8 +3,8 @@
 # git-flow-completion
 # ===================
 #
-# Fish completion support for [git-flow](http://github.com/nvie/gitflow)
-#
+# Fish completion support for [hubflow](https://datasift.github.io/gitflow/)
+# TODO: update comments
 # The contained completion routines provide support for completing:
 #
 #  * git-flow init and version
@@ -43,7 +43,7 @@ end
 
 function __fish_git_flow_using_command
   set cmd (commandline -opc)
-  set subcommands 'flow' $argv
+  set subcommands 'hf' $argv
   if [ (count $cmd) = (math (count $subcommands) + 1) ]
     for i in (seq (count $subcommands))
       if not test $subcommands[$i] = $cmd[(math $i + 1)]
@@ -56,7 +56,7 @@ function __fish_git_flow_using_command
 end
 
 function __fish_git_flow_prefix
-  git config "gitflow.prefix.$argv[1]" 2> /dev/null; or echo "$argv[1]/"
+  git config --get "hubflow.prefix.$argv[1]" 2> /dev/null; or echo "$argv[1]/"
 end
 
 function __fish_git_flow_branches
@@ -66,7 +66,7 @@ end
 
 function __fish_git_flow_remote_branches
   set prefix (__fish_git_flow_prefix $argv[1])
-  set origin (git config gitflow.origin 2> /dev/null; or echo "origin")
+  set origin (git config --get hubflow.origin 2> /dev/null; or echo "origin")
   git branch -r 2> /dev/null | sed "s/^ *//g" | grep "^$origin/$prefix" | sed "s,^$origin/$prefix,," | sort
 end
 
@@ -189,4 +189,3 @@ complete -f -c git -n '__fish_git_flow_using_command support' -s v    -d 'Verbos
 
 complete -f -c git -n '__fish_git_flow_using_command support' -a start -d 'Start a new support branch'
 complete -f -c git -n '__fish_git_flow_using_command support start' -s F  -d 'Fetch from origin first'
-
