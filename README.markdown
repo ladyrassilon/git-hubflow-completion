@@ -41,6 +41,10 @@ To achieve git-hubflow completion nirvana:
                 esac
         }
 
+ 3. If you are using [git-bash-completion](https://github.com/markgandolfo/git-bash-completion) you may consider change your PS1 to also show differences between the current branch and the base branch: PS1='[\u@\h \W$(__git_ps1_diff_base " %s")$(__git_ps1 " (%s)")]\$ '
+  * If your branch is 11 commits ahead and 30 commits behind master bash will show:
+
+          [user@host ▴11 ▾30 branch]$
 
 Installation for Zsh
 --------------------
