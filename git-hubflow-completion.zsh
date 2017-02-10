@@ -134,7 +134,7 @@ __git-hf-release ()
 	esac
 }
 
-__git-flow-hotfix ()
+__git-hf-hotfix ()
 {
 	local curcontext="$curcontext" state line
 	typeset -A opt_args
@@ -186,7 +186,7 @@ __git-flow-hotfix ()
 	esac
 }
 
-__git-flow-feature ()
+__git-hf-feature ()
 {
 	local curcontext="$curcontext" state line
 	typeset -A opt_args
